@@ -16,3 +16,4 @@ static
 *.dat
 .env
 .vagrant
+local.py
