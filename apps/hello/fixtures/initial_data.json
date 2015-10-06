@@ -1,0 +1,16 @@
+[
+{
+    "fields": {
+        "email": "mmospanenko@gmail.com",
+        "first_name": "Maksym",
+        "other_contacts": "mmospanenko@gmail.com",
+        "jabber": "invdeath@khavr.com",
+        "skype": "mmospanenko",
+        "date_of_birth": "1990-03-03",
+        "bio": "About me",
+        "last_name": "Mospanenko"
+    },
+    "pk": 1,
+    "model": "hello.contacts"
+}
+]

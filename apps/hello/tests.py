@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+import datetime
 
 
 class ContactsTestsCase(TestCase):
@@ -8,13 +9,24 @@ class ContactsTestsCase(TestCase):
         self.client = Client()
 
     def test_data(self):
+        '''
+        test all context data for main page
+        '''
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['email'], 'mmospanenko@gmail.com')
-        self.assertEqual(response.context['first_name'], 'Maksym')
-        self.assertEqual(response.context['other_contacts'], 'mmospanenko@gmail.com')
-        self.assertEqual(response.context['jabber'], 'invdeath@khavr.com')
-        self.assertEqual(response.context['skype'], 'mmospanenko')
-        self.assertEqual(response.context['date_of_birth'], '1990-03-03')
-        self.assertEqual(response.context['bio'], 'About me')
-        self.assertEqual(response.context['last_name'], 'Mospanenko')
+        self.assertEqual(response.context['contacts'].email,
+                         'mmospanenko@gmail.com')
+        self.assertEqual(response.context['contacts'].first_name,
+                         'Maksym')
+        self.assertEqual(response.context['contacts'].other_contacts,
+                         'mmospanenko@gmail.com')
+        self.assertEqual(response.context['contacts'].jabber,
+                         'invdeath@khavr.com')
+        self.assertEqual(response.context['contacts'].skype,
+                         'mmospanenko')
+        self.assertEqual(response.context['contacts'].date_of_birth,
+                         datetime.date(1990, 3, 3))
+        self.assertEqual(response.context['contacts'].bio,
+                         'About me')
+        self.assertEqual(response.context['contacts'].last_name,
+                         'Mospanenko')
