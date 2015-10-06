@@ -12,4 +12,4 @@ class Contacts(models.Model):
     email = models.EmailField()
     jabber = models.EmailField()
     skype = models.CharField(max_length=100)
-    other_contacts = models.TextField()
+    other_contacts = models.TextField(null=True)
