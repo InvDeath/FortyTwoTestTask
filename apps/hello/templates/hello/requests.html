@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block content %}
+  <h1>42 Coffee Cups Test Assignment</h1>
+<ul id="requests">
+  {% for r in requests %}
+    <li data-request-id="{{ r.pk }}">
+      {{ r.title }} <br>
+      {{ r.time }}
+      <pre style="border: dotted;">{{ r.request }}</pre>
+    </li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'hello/js/scripts.js' %}"></script>
+{% endblock %}
