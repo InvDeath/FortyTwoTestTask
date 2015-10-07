@@ -1,1 +1,5 @@
- 
+
+.list {
+  float: left;
+  list-style-type: none;
+}
