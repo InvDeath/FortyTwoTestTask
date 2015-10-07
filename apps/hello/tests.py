@@ -30,3 +30,26 @@ class ContactsTestsCase(TestCase):
                          'About me')
         self.assertEqual(response.context['contacts'].last_name,
                          'Mospanenko')
+
+
+class RequestsTestCase(TestCase):
+    def setUp(self):
+        self.client = Client()
+
+    def test_request_writes(self):
+        '''
+        Test middleware request save
+        '''
+        assert False
+
+    def test_requests_page(self):
+        '''
+        Test list of last requests
+        '''
+        assert False
+
+    def test_ajax_update(self):
+        '''
+        Return last new requests
+        '''
+        assert False
