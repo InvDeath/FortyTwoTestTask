@@ -1,5 +1,6 @@
 from django.test import TestCase, Client
 import datetime
+from apps.hello.models import Request
 
 
 class ContactsTestsCase(TestCase):
@@ -40,16 +41,23 @@ class RequestsTestCase(TestCase):
         '''
         Test middleware request save
         '''
-        assert False
+        self.assertEqual(Request.objects.all().count(), 0)
+        self.client.get('/')
+        self.assertEqual(Request.objects.all().count(), 1)
 
     def test_requests_page(self):
         '''
         Test list of last requests
         '''
-        assert False
+        self.client.get('/')
+        response = self.client.get('/requests/')
+        self.assertEqual(response.context['requests'].count(), 2)
 
     def test_ajax_update(self):
         '''
         Return last new requests
         '''
-        assert False
+        self.client.get('/')
+        response = self.client.get('/requests/',
+                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.reason_phrase, 'OK')

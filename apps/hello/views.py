@@ -16,5 +16,6 @@ def home(request):
 def requests(request):
     requests = Request.objects.all()[:10]
     if request.is_ajax():
-        return HttpResponse(serialize("json", requests), content_type="application/json")
+        return HttpResponse(serialize("json", requests),
+                            content_type="application/json")
     return render(request, 'hello/requests.html', {'requests': requests})
