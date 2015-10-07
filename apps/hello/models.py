@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 
 
 class Contacts(models.Model):
-    def __str__(self):
+    def __unicode__(self):
         return '{} {}'.format(self.first_name, self.last_name)
 
     first_name = models.CharField(max_length=100)
