@@ -25,4 +25,4 @@ class Request(models.Model):
     request = models.TextField()
 
     class Meta:
-        ordering = ['time']
+        ordering = ['-time']
