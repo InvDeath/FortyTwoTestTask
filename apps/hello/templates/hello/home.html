@@ -7,14 +7,14 @@
     <li>{{ contacts.first_name }}</li>
     <li>{{ contacts.last_name }}</li>
     <li>{{ contacts.date_of_birth }}</li>
-    <li>Bio:<br>{{ contacts.bio }}</li>
+    <li>Bio:{{ contacts.bio|linebreaks }}</li>
   </ul>
   <ul class="list">
     <li>Contacts</li>
     <li>Email: {{ contacts.email }}</li>
     <li>Jabber: {{ contacts.jabber }}</li>
     <li>Skype: {{ contacts.skype }}</li>
-    <li>Other contacts:<br>{{ contacts.other_contacts }}</li>
+    <li>Other contacts:<br>{{ contacts.other_contacts|linebreaks }}</li>
   </ul>
   <hr style="clear: both;">
   <a href="{% url 'requests' %}">requests</a>
