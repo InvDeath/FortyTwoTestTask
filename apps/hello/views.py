@@ -7,8 +7,8 @@ from django.core.exceptions import ObjectDoesNotExist
 
 def home(request):
     try:
-        contacts = Contacts.objects.get()
-    except ObjectDoesNotExist:
+        contacts = Contacts.objects.all()[0]
+    except (ObjectDoesNotExist, IndexError):
         contacts = None
     return render(request, 'hello/home.html', {'contacts': contacts})
 

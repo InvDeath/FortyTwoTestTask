@@ -45,7 +45,8 @@ function executeUpdate() {
             maxRequest = records[records.length - 1].pk;
         } else {
             newCount = records[records.length - 1].pk - maxRequest;
-            updateTabCounter(newCount);
+            if (newCount)
+                updateTabCounter(newCount);
         }
     });
     setTimeout(executeUpdate, 3000); // you could choose not to continue on failure...
