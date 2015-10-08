@@ -1,6 +1,5 @@
 from django.test import TestCase, Client
-from apps.hello.models import Request, Contacts
-import datetime
+from apps.hello.models import Contacts
 
 
 class ContactsTestsCase(TestCase):
@@ -38,6 +37,9 @@ class ContactsTestsCase(TestCase):
         self.assertEqual(response.context['contacts'].first_name, 'Maksym')
 
     def test_rendered_content(self):
+        '''
+        Test rendered content
+        '''
         response = self.client.get('/')
         self.assertContains(response, 'Maksym')
         self.assertContains(response, 'invdeath@khavr.com')
@@ -46,42 +48,12 @@ class ContactsTestsCase(TestCase):
         self.assertContains(response, 'Mospanenko')
         self.assertContains(response, 'mmospanenko')
         self.assertContains(response, 'mmospanenko@gmail.com')
-        self.assertContains(response, datetime.date(1990, 3, 3))
+        self.assertContains(response, 'March 3, 1990')
 
     def test_absent_contact(self):
         '''
-        Tast if db (contact) empty
+        Test if db (contact) empty
         '''
         Contacts.objects.all()[0].delete()
         response = self.client.get('/')
         self.assertContains(response, 'Nothing to show!')
-
-
-class RequestsTestCase(TestCase):
-    def setUp(self):
-        self.client = Client()
-
-    def test_request_writes(self):
-        '''
-        Test middleware request save
-        '''
-        self.assertEqual(Request.objects.all().count(), 0)
-        self.client.get('/')
-        self.assertEqual(Request.objects.all().count(), 1)
-
-    def test_requests_page(self):
-        '''
-        Test list of last requests
-        '''
-        self.client.get('/')
-        response = self.client.get('/requests/')
-        self.assertEqual(response.context['requests'].count(), 2)
-
-    def test_ajax_update(self):
-        '''
-        Return last new requests
-        '''
-        self.client.get('/')
-        response = self.client.get('/requests/',
-                                   HTTP_X_REQUESTED_WITH='XMLHttpRequest')
-        self.assertEqual(response.reason_phrase, 'OK')
