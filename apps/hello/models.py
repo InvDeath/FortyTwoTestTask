@@ -15,6 +15,9 @@ class Contacts(models.Model):
     skype = models.CharField(max_length=100)
     other_contacts = models.TextField(null=True)
 
+    class Meta:
+        ordering = ['pk']
+
 
 class Request(models.Model):
     def __unicode__(self):

@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>42 Coffee Cups Test Assignment</h1>
-
+{% if contacts %}
   <ul class="list">
     <li>{{ contacts.first_name }}</li>
     <li>{{ contacts.last_name }}</li>
@@ -16,6 +16,9 @@
     <li>Skype: {{ contacts.skype }}</li>
     <li>Other contacts:<br>{{ contacts.other_contacts|linebreaks }}</li>
   </ul>
+  {% else %}
+  Nothing to show!
+  {% endif %}
   <hr style="clear: both;">
   <a href="{% url 'requests' %}">requests</a>
 {% endblock %}
