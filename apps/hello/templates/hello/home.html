@@ -2,22 +2,25 @@
 
 {% block content %}
   <h1>42 Coffee Cups Test Assignment</h1>
-{% if contacts %}
-  <ul class="list">
-    <li>{{ contacts.first_name }}</li>
-    <li>{{ contacts.last_name }}</li>
-    <li>{{ contacts.date_of_birth }}</li>
-    <li>Bio:{{ contacts.bio|linebreaks }}</li>
-  </ul>
-  <ul class="list">
-    <li>Contacts</li>
-    <li>Email: {{ contacts.email }}</li>
-    <li>Jabber: {{ contacts.jabber }}</li>
-    <li>Skype: {{ contacts.skype }}</li>
-    <li>Other contacts:<br>{{ contacts.other_contacts|linebreaks }}</li>
-  </ul>
+  {% if contacts %}
+    {% if user.is_authenticated %}
+      <a href="{% url 'contacts_edit' id=contacts.pk %}">Edit</a>
+    {% endif %}
+    <ul class="list">
+      <li>{{ contacts.first_name }}</li>
+      <li>{{ contacts.last_name }}</li>
+      <li>{{ contacts.date_of_birth }}</li>
+      <li>Bio:{{ contacts.bio|linebreaks }}</li>
+    </ul>
+    <ul class="list">
+      <li>Contacts</li>
+      <li>Email: {{ contacts.email }}</li>
+      <li>Jabber: {{ contacts.jabber }}</li>
+      <li>Skype: {{ contacts.skype }}</li>
+      <li>Other contacts:<br>{{ contacts.other_contacts|linebreaks }}</li>
+    </ul>
   {% else %}
-  Nothing to show!
+    Nothing to show!
   {% endif %}
   <hr style="clear: both;">
   <a href="{% url 'requests' %}">requests</a>

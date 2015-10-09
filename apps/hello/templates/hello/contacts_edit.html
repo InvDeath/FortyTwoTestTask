@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>42 Coffee Cups Test Assignment</h1>
+  <form enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    <ul class="list">
+      <li>Name: {{ form.first_name }}</li>
+      <li>Last name: {{ form.last_name }}</li>
+      <li>Date of birth: {{ form.date_of_birth }}</li>
+      <li>Photo: {{ form.photo }}</li>
+    </ul>
+    <ul class="list">
+      <li>Contacts</li>
+      <li>Email: {{ form.email }}</li>
+      <li>Jabber: {{ form.jabber }}</li>
+      <li>Skype: {{ form.skype }}</li>
+      <li>Other contacts:<br>{{ form.other_contacts }}</li>
+      <li>Bio:<br>{{ form.bio }}</li>
+    </ul>
+    <input type="submit" value="Save">
+  </form>
+  <hr style="clear: both;">
+  <a href="{% url 'requests' %}">requests</a>
+{% endblock %}
