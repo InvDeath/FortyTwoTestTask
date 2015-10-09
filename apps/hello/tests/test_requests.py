@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from apps.hello.models import Request
 from django.core.serializers import deserialize
+from django.utils import timezone
 
 
 class RequestsTestCase(TestCase):
@@ -37,10 +38,15 @@ class RequestsTestCase(TestCase):
         Test return only 10 requests
         '''
         for i in range(15):
-            self.client.get('/')
+            Request.objects.get_or_create(time=timezone.now())
         response = self.client.get('/requests/',
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         requests = list(deserialize("json", response._container[0]))
         self.assertEqual(len(requests), 10)
         response = self.client.get('/requests/')
         self.assertEqual(len(response.context['requests']), 10)
+        # only latest requests?
+        newest_from_reminds = Request.objects \
+            .exclude(pk__in=[r.pk for r in response.context['requests']]) \
+            .latest('time')
+        self.assertNotIn(newest_from_reminds, response.context['requests'])
