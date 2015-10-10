@@ -5,16 +5,16 @@
   <form enctype="multipart/form-data" method="post">
     {% csrf_token %}
     <ul class="list">
-      <li>Name: {{ form.first_name }}</li>
-      <li>Last name: {{ form.last_name }}</li>
-      <li>Date of birth: {{ form.date_of_birth }}</li>
+      <li><span class="column">Name:</span> {{ form.first_name }}</li>
+      <li><span class="column">Last name:</span> {{ form.last_name }}</li>
+      <li><span class="column">Date of birth:</span> {{ form.date_of_birth }}</li>
       <li>Photo: {{ form.photo }}</li>
     </ul>
     <ul class="list">
       <li>Contacts</li>
-      <li>Email: {{ form.email }}</li>
-      <li>Jabber: {{ form.jabber }}</li>
-      <li>Skype: {{ form.skype }}</li>
+      <li><span class="column">Email:</span> {{ form.email }}</li>
+      <li><span class="column">Jabber:</span> {{ form.jabber }}</li>
+      <li><span class="column">Skype:</span> {{ form.skype }}</li>
       <li>Other contacts:<br>{{ form.other_contacts }}</li>
       <li>Bio:<br>{{ form.bio }}</li>
     </ul>

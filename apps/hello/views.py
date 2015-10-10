@@ -1,17 +1,18 @@
 from django.core.serializers import serialize
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from apps.hello.models import Contacts, Request
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from apps.hello.forms import ConractsForm
 
-def home(request):
+
+def contacts(request):
     try:
         contacts = Contacts.objects.all()[0]
     except (ObjectDoesNotExist, IndexError):
         contacts = None
-    return render(request, 'hello/home.html', {'contacts': contacts})
+    return render(request, 'hello/contacts.html', {'contacts': contacts})
 
 
 def requests(request):
@@ -25,5 +26,11 @@ def requests(request):
 @login_required
 def contacts_edit(request, id):
     contacts = Contacts.objects.get(pk=id)
-    form = ConractsForm(instance=contacts)
+    if request.POST:
+        form = ConractsForm(request.POST, request.FILES, instance=contacts)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = ConractsForm(instance=contacts)
     return render(request, 'hello/contacts_edit.html', {'form': form})

@@ -3,3 +3,8 @@
   float: left;
   list-style-type: none;
 }
+
+.column {
+  width: 100px;
+  display: inline-block;
+}

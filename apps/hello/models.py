@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.db import models
+from django_resized import ResizedImageField
 
 
 class Contacts(models.Model):
@@ -14,6 +15,7 @@ class Contacts(models.Model):
     jabber = models.EmailField()
     skype = models.CharField(max_length=100)
     other_contacts = models.TextField(null=True)
+    photo = ResizedImageField(upload_to='photos', null=True, size=[200, 200])
 
     class Meta:
         ordering = ['pk']

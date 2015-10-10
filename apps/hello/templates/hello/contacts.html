@@ -10,7 +10,7 @@
       <li>{{ contacts.first_name }}</li>
       <li>{{ contacts.last_name }}</li>
       <li>{{ contacts.date_of_birth }}</li>
-      <li>Bio:{{ contacts.bio|linebreaks }}</li>
+      <li><img src="{{ MEDIA_URL }}{{ contacts.photo }}" alt="My photo"></li>
     </ul>
     <ul class="list">
       <li>Contacts</li>
@@ -18,6 +18,7 @@
       <li>Jabber: {{ contacts.jabber }}</li>
       <li>Skype: {{ contacts.skype }}</li>
       <li>Other contacts:<br>{{ contacts.other_contacts|linebreaks }}</li>
+      <li>Bio:{{ contacts.bio|linebreaks }}</li>
     </ul>
   {% else %}
     Nothing to show!
