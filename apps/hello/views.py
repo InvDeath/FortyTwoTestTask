@@ -1,10 +1,13 @@
+import json
+
 from django.core.serializers import serialize
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from apps.hello.models import Contacts, Request
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
-from apps.hello.forms import ConractsForm
+from apps.hello.forms import ContactsForm
+from django.conf import settings
 
 
 def contacts(request):
@@ -27,10 +30,27 @@ def requests(request):
 def contacts_edit(request, id):
     contacts = Contacts.objects.get(pk=id)
     if request.POST:
-        form = ConractsForm(request.POST, request.FILES, instance=contacts)
+        form = ContactsForm(request.POST, request.FILES, instance=contacts)
         if form.is_valid():
             form.save()
+            if request.is_ajax():
+                result = {
+                    'status': 'OK',
+                    'photo': '{}{}'.format(settings.MEDIA_URL,
+                                           contacts.photo.name),
+                }
+                return HttpResponse(json.dumps(result))
             return redirect('home')
+        else:
+            if request.is_ajax():
+                # Prepare JSON for parsing
+                errors_dict = {}
+                if form.errors:
+                    for error in form.errors:
+                        e = form.errors[error]
+                        errors_dict[error] = e
+                return HttpResponseBadRequest(json.dumps(errors_dict))
+
     else:
-        form = ConractsForm(instance=contacts)
+        form = ContactsForm(instance=contacts)
     return render(request, 'hello/contacts_edit.html', {'form': form})

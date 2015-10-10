@@ -1,13 +1,15 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block content %}
   <h1>42 Coffee Cups Test Assignment</h1>
-  <form enctype="multipart/form-data" method="post">
+  <form id="contacts-edit-form" enctype="multipart/form-data" method="post">
     {% csrf_token %}
     <ul class="list">
       <li><span class="column">Name:</span> {{ form.first_name }}</li>
       <li><span class="column">Last name:</span> {{ form.last_name }}</li>
-      <li><span class="column">Date of birth:</span> {{ form.date_of_birth }}</li>
+      <li><span class="column">Date of birth:</span> {{ form.date_of_birth }}
+      </li>
       <li>Photo: {{ form.photo }}</li>
     </ul>
     <ul class="list">
@@ -18,8 +20,18 @@
       <li>Other contacts:<br>{{ form.other_contacts }}</li>
       <li>Bio:<br>{{ form.bio }}</li>
     </ul>
+    <br class="clean">
+
     <input type="submit" value="Save">
+    <a href="">Cancel</a>
+    <span id="loading" style="display: none;">Loading...</span>
+    <span id="success" style="display: none;">Changes have been saved</span>
   </form>
-  <hr style="clear: both;">
+  <hr class="clean">
   <a href="{% url 'requests' %}">requests</a>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/jquery.form.min.js' %}"></script>
+  <script src="{% static 'hello/js/contacts_edit.js' %}"></script>
 {% endblock %}

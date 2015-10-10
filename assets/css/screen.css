@@ -8,3 +8,12 @@
   width: 100px;
   display: inline-block;
 }
+
+.clean {
+  clear: both;
+}
+
+.list-error {
+  display: list-item;
+  color: red;
+}

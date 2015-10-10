@@ -1,5 +1,8 @@
+import StringIO
+
 from django.test import TestCase, Client
 from apps.hello.models import Contacts
+from django.core.urlresolvers import reverse
 
 
 class ContactsTestsCase(TestCase):
@@ -57,3 +60,32 @@ class ContactsTestsCase(TestCase):
         Contacts.objects.all()[0].delete()
         response = self.client.get('/')
         self.assertContains(response, 'Nothing to show!')
+
+    def test_save_data(self):
+        '''
+        Test update contacts
+        '''
+        self.client.login(username='admin', password='admin')
+        contacts = Contacts.objects.all()[0]
+        img_file = StringIO.StringIO(
+            'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,'
+            '\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;')
+
+        img_file.name = 'test_img_file.gif'
+        data = {
+            'bio': 'About me',
+            'first_name': 'm',
+            'last_name': 'm',
+            'jabber': 'invdeath@khavr.com',
+            'date_of_birth': '1990-03-03',
+            'skype': 'mmospanenko',
+            'photo': img_file,
+            'other_contacts': 'mmospanenko@gmail.com',
+            'email': 'mmospanenko@gmail.com'
+        }
+
+        self.client.post(
+            reverse('contacts_edit', kwargs={'id': contacts.pk}), data=data,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        contacts = Contacts.objects.all()[0]
+        self.assertEqual(contacts.first_name, 'm')
