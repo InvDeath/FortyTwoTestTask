@@ -38,7 +38,8 @@ class RequestsTestCase(TestCase):
         Test return only 10 requests
         '''
         for i in range(15):
-            Request.objects.get_or_create(time=timezone.now())
+            Request.objects.get_or_create(
+                time=timezone.now() + timezone.timedelta(hours=i))
         response = self.client.get('/requests/',
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         requests = list(deserialize("json", response._container[0]))
@@ -49,4 +50,5 @@ class RequestsTestCase(TestCase):
         newest_from_reminds = Request.objects \
             .exclude(pk__in=[r.pk for r in response.context['requests']]) \
             .latest('time')
-        self.assertNotIn(newest_from_reminds, response.context['requests'])
+        for rec in response.context['requests']:
+            self.assertLess(newest_from_reminds.time, rec.time)
