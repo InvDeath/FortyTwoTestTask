@@ -5,7 +5,10 @@
   {% if contacts %}
     {% if user.is_authenticated %}
       <a href="{% url 'contacts_edit' id=contacts.pk %}">Edit</a>
+    {% else %}
+      <a href="{% url 'contacts_edit' id=contacts.pk %}">Login</a>
     {% endif %}
+
     <ul class="list">
       <li>{{ contacts.first_name }}</li>
       <li>{{ contacts.last_name }}</li>

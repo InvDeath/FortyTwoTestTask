@@ -26,7 +26,7 @@ def requests(request):
     return render(request, 'hello/requests.html', {'requests': request_set})
 
 
-@login_required
+@login_required(login_url='/admin/')
 def contacts_edit(request, id):
     contacts = Contacts.objects.get(pk=id)
     if request.POST:

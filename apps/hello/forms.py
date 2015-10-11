@@ -3,7 +3,8 @@ from apps.hello.models import Contacts
 from django.forms.widgets import FileInput
 from django.utils.html import conditional_escape
 from django.utils.safestring import mark_safe
-
+from django.forms.extras.widgets import SelectDateWidget
+from django.contrib.admin.widgets import AdminDateWidget
 
 class EditPhotoFileInput(FileInput):
     def render(self, name, value, attrs=None):
@@ -23,3 +24,4 @@ class ContactsForm(forms.ModelForm):
         model = Contacts
 
     photo = forms.ImageField(widget=EditPhotoFileInput())
+    date_of_birth = forms.DateField(widget=AdminDateWidget)
