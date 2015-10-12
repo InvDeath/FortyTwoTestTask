@@ -1,4 +1,5 @@
 import StringIO
+import json
 
 from django.test import TestCase, Client
 from apps.hello.models import Contacts
@@ -84,8 +85,31 @@ class ContactsTestsCase(TestCase):
             'email': 'mmospanenko@gmail.com'
         }
 
-        self.client.post(
+        response = self.client.post(
             reverse('contacts_edit', kwargs={'id': contacts.pk}), data=data,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertContains(response, '"OK"')
         contacts = Contacts.objects.all()[0]
         self.assertEqual(contacts.first_name, 'm')
+
+    def test_save_errors(self):
+        '''
+        Test method returns errors in JSON
+        '''
+        self.client.login(username='admin', password='admin')
+        contacts = Contacts.objects.all()[0]
+        data = {
+            'bio': '',
+            'first_name': '',
+            'last_name': '',
+            'jabber': '',
+            'date_of_birth': '',
+            'skype': '',
+            'photo': '',
+            'other_contacts': '',
+            'email': ''
+        }
+        response = self.client.post(
+            reverse('contacts_edit', kwargs={'id': contacts.pk}), data=data,
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(response.reason_phrase, u'BAD REQUEST')
