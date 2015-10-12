@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from django.utils import timezone
 
 
 class Contacts(models.Model):
@@ -25,7 +24,7 @@ class Request(models.Model):
         return self.title
 
     title = models.CharField(max_length=100, default='HTTP request')
-    time = models.DateTimeField(default=timezone.now())
+    time = models.DateTimeField(auto_now_add=True)
     request = models.TextField()
 
     class Meta:
