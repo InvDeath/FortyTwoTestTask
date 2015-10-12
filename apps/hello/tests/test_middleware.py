@@ -8,7 +8,7 @@ class MiddlewareTestCase(TestCase):
         Test save request
         '''
         self.assertEqual(Request.objects.all().count(), 0)
-        self.client.get('/')
+        Request.objects.create()
         self.assertEqual(Request.objects.all().count(), 1)
         self.client.get('/requests/',
                         HTTP_X_REQUESTED_WITH='XMLHttpRequest')
