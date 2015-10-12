@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
+{% load hello_extras %}
 
 {% block content %}
   <h1>42 Coffee Cups Test Assignment</h1>
   {% if contacts %}
     {% if user.is_authenticated %}
       <a href="{% url 'contacts_edit' id=contacts.pk %}">Edit</a>
+      {% edit_link contacts %}
     {% else %}
       <a href="{% url 'contacts_edit' id=contacts.pk %}">Login</a>
     {% endif %}
