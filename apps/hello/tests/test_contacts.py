@@ -113,3 +113,5 @@ class ContactsTestsCase(TestCase):
             reverse('contacts_edit', kwargs={'id': contacts.pk}), data=data,
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.reason_phrase, u'BAD REQUEST')
+        # doesn't raise ValueError. It is valid JSON
+        json.loads(response._container[0])
