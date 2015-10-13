@@ -43,4 +43,4 @@ class Action(models.Model):
     action = models.CharField(max_length=100)
 
 
-import apps.hello.signals
+import apps.hello.signals  # noqa

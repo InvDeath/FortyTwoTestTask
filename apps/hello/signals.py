@@ -13,7 +13,7 @@ def log_save(sender, **kwargs):
 
 
 @receiver(post_delete)
-def log_save(sender, **kwargs):
+def log_delete(sender, **kwargs):
     if type(kwargs['instance']) is Action:
         return False
     Action.objects.create(model=str(sender._meta),
