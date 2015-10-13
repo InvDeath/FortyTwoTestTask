@@ -31,3 +31,16 @@ class Request(models.Model):
 
     class Meta:
         ordering = ['-time']
+
+
+class Action(models.Model):
+    def __unicode__(self):
+        return self.model
+
+    model = models.CharField(max_length=100)
+    instance = models.CharField(max_length=100)
+    time = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=100)
+
+
+import apps.hello.signals
