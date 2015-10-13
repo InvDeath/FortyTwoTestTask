@@ -19,7 +19,7 @@ def contacts(request):
 
 
 def requests(request):
-    request_set = Request.objects.all()[:10]
+    request_set = Request.objects.order_by('-priority')[:10]
     if request.is_ajax():
         return HttpResponse(serialize("json", request_set),
                             content_type="application/json")

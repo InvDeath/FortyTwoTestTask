@@ -30,12 +30,12 @@ function executeUpdate() {
     $.ajax({
         url: "/requests/"
     }).done(function (records) {
-        records.reverse();
         $('#requests').html('');
         records.forEach(function (rec) {
             $('#requests').append(
                 '<li data-request-id="' + rec.pk +
-                '">' + rec.fields.title + '<br>' + rec.fields.time +
+                '">' + rec.fields.title + '<br>Priority: ' +
+                rec.fields.priority + '<br>' + rec.fields.time +
                 '<pre style="border: dotted;">' + rec.fields.request + '</pre></li>'
             );
         });

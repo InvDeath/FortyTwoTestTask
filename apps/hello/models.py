@@ -28,6 +28,9 @@ class Request(models.Model):
     title = models.CharField(max_length=100, default='HTTP request')
     time = models.DateTimeField(auto_now_add=True)
     request = models.TextField()
+    priority = models.IntegerField(default=1,
+                                   choices=[(i, i) for i in range(1, 11)],
+                                   blank=True)
 
     class Meta:
         ordering = ['-time']
