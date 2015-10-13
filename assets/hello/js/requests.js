@@ -42,9 +42,21 @@ function executeUpdate() {
         if (isActive) {
             newCount = 0;
             document.title = docTitle;
-            maxRequest = records[records.length - 1].pk;
+            for (record in records) {
+                if (records[record].fields.priority > 1)
+                    continue;
+                maxRequest = records[record].pk;
+                break;
+            }
+
         } else {
-            newCount = records[records.length - 1].pk - maxRequest;
+            for (record in records) {
+                if (records[record].fields.priority > 1)
+                    continue;
+                latest = records[record].pk;
+                break;
+            }
+            newCount = latest - maxRequest;
             if (newCount)
                 updateTabCounter(newCount);
         }
