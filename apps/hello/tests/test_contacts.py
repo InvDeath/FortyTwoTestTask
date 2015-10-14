@@ -1,6 +1,6 @@
-import StringIO
+from StringIO import StringIO
 import json
-
+from PIL import Image
 from django.test import TestCase, Client
 from apps.hello.models import Contacts
 from django.core.urlresolvers import reverse
@@ -68,11 +68,13 @@ class ContactsTestsCase(TestCase):
         '''
         self.client.login(username='admin', password='admin')
         contacts = Contacts.objects.all()[0]
-        img_file = StringIO.StringIO(
-            'GIF87a\x01\x00\x01\x00\x80\x01\x00\x00\x00\x00ccc,'
-            '\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02\x02D\x01\x00;')
 
-        img_file.name = 'test_img_file.gif'
+        file_obj = StringIO()
+        image = Image.new("RGBA", size=(500, 700), color=(256, 0, 0))
+        image.save(file_obj, 'png')
+        file_obj.name = 'test.png'
+        file_obj.seek(0)
+
         data = {
             'bio': 'About me',
             'first_name': 'm',
@@ -80,7 +82,7 @@ class ContactsTestsCase(TestCase):
             'jabber': 'invdeath@khavr.com',
             'date_of_birth': '1990-03-03',
             'skype': 'mmospanenko',
-            'photo': img_file,
+            'photo': file_obj,
             'other_contacts': 'mmospanenko@gmail.com',
             'email': 'mmospanenko@gmail.com'
         }
@@ -91,6 +93,8 @@ class ContactsTestsCase(TestCase):
         self.assertContains(response, '"OK"')
         contacts = Contacts.objects.all()[0]
         self.assertEqual(contacts.first_name, 'm')
+        saved_image = Image.open(contacts.photo.path)
+        self.assertEqual((142, 200), saved_image.size)
 
     def test_save_errors(self):
         '''
