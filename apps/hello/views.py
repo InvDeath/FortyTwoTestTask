@@ -49,8 +49,8 @@ def contacts_edit(request, id):
                     for error in form.errors:
                         e = form.errors[error]
                         errors_dict[error] = e
-                return HttpResponseBadRequest(json.dumps(errors_dict))
-
+                return HttpResponseBadRequest(json.dumps(errors_dict),
+                                              content_type='application/json')
     else:
         form = ContactsForm(instance=contacts)
     return render(request, 'hello/contacts_edit.html', {'form': form})

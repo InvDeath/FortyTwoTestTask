@@ -114,4 +114,15 @@ class ContactsTestsCase(TestCase):
             HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.reason_phrase, u'BAD REQUEST')
         # doesn't raise ValueError. It is valid JSON
-        json.loads(response._container[0])
+        from_json = json.loads(response.content)
+        self.assertEqual(from_json['bio'], ['This field is required.'])
+        self.assertEqual(from_json['first_name'], ['This field is required.'])
+        self.assertEqual(from_json['last_name'], ['This field is required.'])
+        self.assertEqual(from_json['jabber'], ['This field is required.'])
+        self.assertEqual(from_json['date_of_birth'],
+                         ['This field is required.'])
+        self.assertEqual(from_json['skype'], ['This field is required.'])
+        self.assertEqual(from_json['photo'], ['This field is required.'])
+        self.assertEqual(from_json['other_contacts'],
+                         ['This field is required.'])
+        self.assertEqual(from_json['email'], ['This field is required.'])
