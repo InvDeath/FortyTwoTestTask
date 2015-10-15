@@ -1,6 +1,7 @@
 from django.test import TestCase, Client
 from apps.hello.models import Request
 from django.core.serializers import deserialize
+from django.core.urlresolvers import reverse
 
 
 class RequestsTestCase(TestCase):
@@ -20,7 +21,7 @@ class RequestsTestCase(TestCase):
         Test list of last requests
         '''
         Request.objects.create()
-        response = self.client.get('/requests/')
+        response = self.client.get(reverse('requests'))
         self.assertEqual(response.context['requests'].count(), 2)
 
     def test_ajax_update(self):
@@ -28,7 +29,7 @@ class RequestsTestCase(TestCase):
         Return last new requests
         '''
         Request.objects.create()
-        response = self.client.get('/requests/',
+        response = self.client.get(reverse('requests'),
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(response.reason_phrase, 'OK')
 
@@ -38,11 +39,11 @@ class RequestsTestCase(TestCase):
         '''
         for i in range(15):
             Request.objects.create()
-        response = self.client.get('/requests/',
+        response = self.client.get(reverse('requests'),
                                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         requests = list(deserialize("json", response._container[0]))
         self.assertEqual(len(requests), 10)
-        response = self.client.get('/requests/')
+        response = self.client.get(reverse('requests'))
         self.assertEqual(len(response.context['requests']), 10)
         # only latest requests?
         latest_ten = Request.objects.order_by('-time')[:10]
@@ -54,6 +55,6 @@ class RequestsTestCase(TestCase):
         '''
         for i in range(15):
             Request.objects.create(priority=i)
-        response = self.client.get('/requests/')
+        response = self.client.get(reverse('requests'))
         highest_ten = Request.objects.order_by('-priority')[:10]
         self.assertEqual(set(highest_ten), set(response.context['requests']))

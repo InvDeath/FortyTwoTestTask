@@ -10,5 +10,6 @@ class TagsTestCase(TestCase):
         '''
         request = Request.objects.create()
         self.assertEqual(
-            '<a href="/admin/hello/request/{}">(admin)</a>'.format(request.pk),
+            '<a href="/admin/hello/request/{}/">(admin)</a>'.format(
+                request.pk),
             edit_link(request))

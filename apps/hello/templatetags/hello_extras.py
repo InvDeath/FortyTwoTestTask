@@ -1,10 +1,12 @@
 from django import template
+from django.core.urlresolvers import reverse
 
 register = template.Library()
 
 
 @register.simple_tag
 def edit_link(obj):
-    return '<a href="/admin/{}/{}/{}">(admin)</a>'.format(obj._meta.app_label,
-                                                          obj._meta.model_name,
-                                                          obj.pk)
+    url = reverse(
+        'admin:{}_{}_change'.format(obj._meta.app_label, obj._meta.model_name),
+        args=(obj.pk,))
+    return '<a href="{}">(admin)</a>'.format(url)

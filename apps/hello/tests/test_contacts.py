@@ -16,7 +16,7 @@ class ContactsTestsCase(TestCase):
         '''
         Test all context data for main page
         '''
-        response = self.client.get('/')
+        response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['contacts'],
                          Contacts.objects.all()[0])
@@ -37,14 +37,14 @@ class ContactsTestsCase(TestCase):
         )
         second_contact.save()
 
-        response = self.client.get('/')
+        response = self.client.get(reverse('home'))
         self.assertEqual(response.context['contacts'].first_name, 'Maksym')
 
     def test_rendered_content(self):
         '''
         Test rendered content
         '''
-        response = self.client.get('/')
+        response = self.client.get(reverse('home'))
         self.assertContains(response, 'Maksym')
         self.assertContains(response, 'invdeath@khavr.com')
         self.assertContains(response, 'About me')
@@ -59,7 +59,7 @@ class ContactsTestsCase(TestCase):
         Test if db (contact) empty
         '''
         Contacts.objects.all()[0].delete()
-        response = self.client.get('/')
+        response = self.client.get(reverse('home'))
         self.assertContains(response, 'Nothing to show!')
 
     def test_save_data(self):
