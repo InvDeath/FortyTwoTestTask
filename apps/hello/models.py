@@ -44,6 +44,3 @@ class Action(models.Model):
     instance = models.CharField(max_length=100)
     time = models.DateTimeField(auto_now_add=True)
     action = models.CharField(max_length=100)
-
-
-import apps.hello.signals  # noqa
