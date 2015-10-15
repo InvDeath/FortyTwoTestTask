@@ -7,7 +7,7 @@ from django.dispatch import receiver
 def log_save(sender, **kwargs):
     if type(kwargs['instance']) is Action:
         return False
-    action = 'update' if kwargs['update_fields'] else 'save'
+    action = 'update' if not kwargs['created'] else 'save'
     Action.objects.create(model=str(sender._meta),
                           instance=kwargs['instance'].pk, action=action)
 
